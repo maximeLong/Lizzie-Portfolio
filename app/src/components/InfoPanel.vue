@@ -1,20 +1,32 @@
 <template>
   <div id="info-panel">
+    <div id="logo">Lizzie Davis</div>
 
-    <div id="panel-controls">
-      <div class="panel-button"
-        v-for='(butt, index) in 2'
-        v-bind:class="{ active: currentComponent == index }"
-        @click="changeCurrentComponent(index)">
+    <div id="title-slider">
+      <div id="title-rotator"
+        v-bind:style="{ transform: 'translate3d(0, -' + rotate + 'px, 0)'}">
+        <div class="title" v-for="page in pages">{{page.title}}</div>
       </div>
     </div>
 
-    <div v-if="currentComponent == 0">
-      show landing component
+    <div id="panel-controls">
+      <div class="panel-button"
+        v-for='(page, index) in pages'
+        v-bind:class="{ active: currentPage == page.title }"
+        @click="changeCurrentPage(page, index)">
+      </div>
     </div>
 
-    <div v-if="currentComponent == 1">
+    <div v-if="currentPage == 'Publications'">
+      landing page information
+    </div>
+
+    <div v-if="currentPage == 'CV'">
       <map-rolly></map-rolly>
+    </div>
+
+    <div v-if="currentPage == 'Contact'">
+      contact information
     </div>
 
 
@@ -30,12 +42,19 @@ module.exports =
     MapRolly: require './MapRolly'
 
   data: ->
-    currentComponent: 0
+    currentPage: 'Publications'
+    rotate: 0
+    titleSize: 40
+    pages: [
+      { title: 'Publications' }
+      { title: 'CV' }
+      { title: 'Contact' }
+    ]
 
   methods:
-    changeCurrentComponent: (index)->
-      @currentComponent = index
-      console.log @currentComponent
+    changeCurrentPage: (page, index)->
+      @currentPage = page.title
+      @rotate = @titleSize * index
 
 </script>
 
@@ -49,7 +68,35 @@ module.exports =
   +flexbox
   height: 100%
   +align-items(center)
+  +flex-direction(column)
   +justify-content(center)
+
+  #logo
+    color: $action_color
+    font-family: 'Playfair Display', serif
+    font-size: 25px
+    letter-spacing: 5px
+    text-transform: uppercase
+    position: absolute
+    top: 20px
+    left: 20px
+
+  #title-slider
+    position: absolute
+    display: block
+    height: 40px
+    overflow-y: hidden
+    top: 150px
+    #title-rotator
+      +transition(.35s ease all)
+
+      .title
+        display: block
+        font-size: 25px
+        height: 40px
+        text-align: center
+
+
 
   #panel-controls
     position: absolute

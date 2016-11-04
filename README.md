@@ -1,4 +1,4 @@
-# whereyaat marketing
+# Lizzie's portfolio
 > client side marketing for whereyaat
 
 ## Build Setup
