@@ -1,57 +1,32 @@
 <template>
   <div id="info-panel">
 
-    <div id="header-bar">
-      <div id="logo">Lizzie Davis.</div>
-      <div id="languages">
-        <div class="language-button"
-             v-bind:class="{ active: activeLanguage == 'English' }"
-             @click="activeLanguage = 'English'">English</div>
-        <div class="language-button"
-             v-bind:class="{ active: activeLanguage == 'Espanol' }"
-             @click="activeLanguage = 'Espanol'">Español</div>
-       <div class="language-button"
-            v-bind:class="{ active: activeLanguage == 'Italiano' }"
-            @click="activeLanguage = 'Italiano'">Italiano</div>
-      </div>
-      <div id="navigation">
-        <div class="nav-button"
-             v-bind:class="{ active: currentPage == 'Publications' }"
-             @click="changeCurrentPage('Publications', 0)">Publications.</div>
-        <div class="nav-button"
-             v-bind:class="{ active: currentPage == 'Curriculum Vitae' }"
-             @click="changeCurrentPage('Curriculum Vitae', 1)">CV.</div>
-        <div class="nav-button"
-             v-bind:class="{ active: currentPage == 'Contact Me' }"
-             @click="changeCurrentPage('Contact Me', 2)">Contact.</div>
-      </div>
-    </div>
-
+    <header-panel></header-panel>
 
     <div id="title-slider">
       <div id="title-rotator"
-        v-bind:style="{ transform: 'translate3d(0, -' + titleRotate + 'px, 0)'}">
-        <div class="title" v-for="page in pages">{{page.title}}</div>
+        v-bind:style="{ transform: rotateString }">
+        <div class="title" v-for="view in views">{{view.title}}</div>
       </div>
     </div>
 
     <div id="panel-controls">
       <div class="panel-button"
-        v-for='(page, index) in pages'
-        v-bind:class="{ active: currentPage == page.title }"
-        @click="changeCurrentPage(page.title, index)">
+        v-for='view in views'
+        v-bind:class="{ active: currentView == view.title }"
+        @click="changeCurrentView(view.title)">
       </div>
     </div>
 
-    <div v-if="currentPage == 'Publications'">
+    <div v-if="currentView == views[0].title">
       landing page information
     </div>
 
-    <div v-if="currentPage == 'Curriculum Vitae'">
+    <div v-if="currentView == views[1].title">
       <map-rolly></map-rolly>
     </div>
 
-    <div v-if="currentPage == 'Contact Me'">
+    <div v-if="currentView == views[2].title">
       contact information
     </div>
 
@@ -66,22 +41,24 @@ module.exports =
   name: 'infoPanel'
   components:
     MapRolly: require './MapRolly'
+    HeaderPanel: require './HeaderPanel'
+
+  computed:
+    rotateAmount: ->
+      currentIndex = 0
+      for view,i in @views
+        currentIndex = i if view.title == @currentView
+      return currentIndex * @titleSize
+    rotateString: -> return "translate3d(0, -#{@rotateAmount}px, 0)"
+
+    views: ->           return @$store.state.views
+    currentView: ->     return @$store.state.currentView
+  methods:
+    changeCurrentView: (index)->  @$store.commit('SET_CURRENT_VIEW', index)
 
   data: ->
-    currentPage: 'Publications'
-    activeLanguage: 'English'
-    titleRotate: 0
-    titleSize: 40
-    pages: [
-      { title: 'Publications' }
-      { title: 'Curriculum Vitae' }
-      { title: 'Contact Me' }
-    ]
+    titleSize: 50 # update when you change css title height
 
-  methods:
-    changeCurrentPage: (title, index)->
-      @currentPage = title
-      @titleRotate = @titleSize * index
 
 </script>
 
@@ -98,58 +75,10 @@ module.exports =
   +flex-direction(column)
   +justify-content(center)
 
-  #header-bar
-    +flexbox
-    +align-items(center)
-    +flex-direction(row)
-    +justify-content(space-between)
-    position: absolute
-    top: 20px
-    left: 20px
-    width: calc(100% - 20px)
-    letter-spacing: 2px
-    #logo
-      color: #5bb99f
-      font-family: 'Playfair Display', serif
-      font-size: 25px
-      display: none
-    #languages
-      +flexbox
-      +flex-direction(row)
-      .language-button
-        +clickable
-        color: $action_color
-        +transition(.35s ease all)
-      .language-button:nth-of-type(1)::after
-        content: '/'
-        padding: 0 5px
-      .language-button:nth-of-type(2)::after
-        content: '/'
-        padding: 0 5px
-      .active
-        color: $black_three_quarters
-        +transition(.35s ease all)
-        cursor: default
-    #navigation
-      +flexbox
-      +flex-direction(row)
-      .nav-button
-        +clickable
-        color: $action_color
-        padding: 0 10px
-        +transition(.35s ease all)
-        &:last-of-type
-          padding-right: 20px
-      .active
-        color: $black_three_quarters
-        +transition(.35s ease all)
-        cursor: default
-
-
   #title-slider
     position: absolute
     display: block
-    height: 40px
+    height: 50px
     overflow-y: hidden
     top: 91px
     left: 80px
@@ -159,8 +88,9 @@ module.exports =
       .title
         display: block
         font-size: 30px
-        height: 40px
-
+        height: 50px
+        +flexbox
+        +align-items(center)
 
   #panel-controls
     position: absolute

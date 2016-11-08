@@ -1,11 +1,23 @@
 Vuex = require('vuex')
 
 state =
-  stateVal: 'hello world'
+  views: [
+    { title: 'Publications' }
+    { title: 'Curriculum Vitae' }
+    { title: 'Contact Me' } ]
+  languages: [
+    { value: 'english' }
+    { value: 'spanish' }
+    { value: 'italian' } ]
+  currentView: 'Publications'
+  activeLanguage: 'english'
+
 
 mutations =
-  SET_STATE_VAL: (state, newVal)->
-    state.stateVal = newVal
+  SET_CURRENT_VIEW: (state, newView)->
+    state.currentView = newView
+  SET_ACTIVE_LANGUAGE: (state, newLang)->
+    state.activeLanguage = newLang
 
 module.exports = new Vuex.Store({
   state
