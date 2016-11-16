@@ -16,15 +16,10 @@
     </div>
 
     <div id="navigation">
-      <div class="nav-button"
-           v-bind:class="{ active: currentView == views[0].title }"
-           @click="changeCurrentView(views[0].title, 0)">Publications.</div>
-      <div class="nav-button"
-           v-bind:class="{ active: currentView == views[1].title }"
-           @click="changeCurrentView(views[1].title, 1)">CV.</div>
-      <div class="nav-button"
-           v-bind:class="{ active: currentView == views[2].title }"
-           @click="changeCurrentView(views[2].title, 2)">Contact.</div>
+      <div class="nav-button" v-for="view in views"
+           v-bind:class="{ active: buttonIsActive(view.title) }"
+           @click="changeCurrentView(view.title)">{{view.title}}.
+      </div>
     </div>
 
   </div>
@@ -32,7 +27,7 @@
 
 <script lang="coffee">
 module.exports =
-  
+
   name: 'headerPanel'
   computed:
     views: ->           return @$store.state.views
@@ -40,7 +35,8 @@ module.exports =
     currentView: ->     return @$store.state.currentView
     activeLanguage: ->  return @$store.state.activeLanguage
   methods:
-    changeCurrentView: (index)->  @$store.commit('SET_CURRENT_VIEW', index)
+    changeCurrentView: (index)->  return @$router.push(index)
+    buttonIsActive: (index)->     return @$store.state.route.path[1..] is index
     changeActiveLang: (index)->   @$store.commit('SET_ACTIVE_LANGUAGE', index)
 
 

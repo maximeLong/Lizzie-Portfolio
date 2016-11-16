@@ -12,9 +12,18 @@
   "dependencies": {
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.11.1",
+    "feathers": "^2.0.2",
+    "feathers-authentication": "^0.7.12",
+    "feathers-hooks": "^1.6.1",
+    "feathers-reactive": "^0.4.0",
+    "feathers-socketio": "^1.4.2",
     "lodash": "^4.16.6",
+    "rxjs": "^5.0.0-rc.2",
+    "socket.io-client": "^1.5.1",
     "vue": "^2.0.1",
+    "vue-router": "^2.0.2",
     "vuex": "^2.0.0",
+    "vuex-router-sync": "^3.0.0",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {

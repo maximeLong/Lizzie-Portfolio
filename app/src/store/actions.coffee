@@ -1,5 +1,9 @@
+{ viewStream } = require 'src/db'
+RxJS = require('rxjs');
+
 module.exports =
 
-  someAction: ({commit}, newVal) ->
-    console.log('yo dawg get me some food', newVal)
-    commit 'SET_STATE_VAL', newVal
+  #socket method that watches for updates to server
+  startStream: ({commit})=>
+    viewStream.subscribe (res) ->
+      commit('SET_VIEWS', res) if res.length

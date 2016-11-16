@@ -6,30 +6,24 @@
     <div id="title-slider">
       <div id="title-rotator"
         v-bind:style="{ transform: rotateString }">
-        <div class="title" v-for="view in views">{{view.title}}</div>
+        <div class="title" v-for="title in viewTitles">{{title}}</div>
       </div>
     </div>
 
+    <!-- main view router -->
+    <transition name="fade" mode="out-in">
+      <router-view class="view"></router-view>
+    </transition>
+
+
+    <!-- side panel controls -->
     <div id="panel-controls">
       <div class="panel-button"
         v-for='view in views'
-        v-bind:class="{ active: currentView == view.title }"
+        v-bind:class="{ active: buttonIsActive(view.title) }"
         @click="changeCurrentView(view.title)">
       </div>
     </div>
-
-    <div v-if="currentView == views[0].title">
-      landing page information
-    </div>
-
-    <div v-if="currentView == views[1].title">
-      <map-rolly></map-rolly>
-    </div>
-
-    <div v-if="currentView == views[2].title">
-      contact information
-    </div>
-
 
 
   </div>
@@ -47,14 +41,18 @@ module.exports =
     rotateAmount: ->
       currentIndex = 0
       for view,i in @views
-        currentIndex = i if view.title == @currentView
+        currentIndex = i if view.title == @$store.state.route.path[1..]
       return currentIndex * @titleSize
     rotateString: -> return "translate3d(0, -#{@rotateAmount}px, 0)"
+    viewTitles: -> return @views.map (view)=> view[@activeLanguage]?.title
 
     views: ->           return @$store.state.views
     currentView: ->     return @$store.state.currentView
+    activeLanguage: ->  return @$store.state.activeLanguage
   methods:
-    changeCurrentView: (index)->  @$store.commit('SET_CURRENT_VIEW', index)
+    changeCurrentView: (index)->  return @$router.push(index)
+    buttonIsActive: (index)->     return @$store.state.route.path[1..] is index
+
 
   data: ->
     titleSize: 50 # update when you change css title height
