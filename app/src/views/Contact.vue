@@ -1,7 +1,7 @@
 <template>
   <div id="contact">
 
-    contact stuff
+    {{contactBody}}
 
   </div>
 </template>
@@ -10,6 +10,13 @@
 
 module.exports =
   name: 'contact'
+
+  computed:
+    views: -> @$store.state.views
+    activeLanguage: -> return @$store.state.activeLanguage
+
+    #HACK: component loads before data is returned from server and into store
+    contactBody: -> return @views[2]?[@activeLanguage].body
 
 
 </script>

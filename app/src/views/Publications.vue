@@ -1,7 +1,7 @@
 <template>
   <div id="publications">
 
-    something in publications
+    {{publicationsBody}}
 
   </div>
 </template>
@@ -10,6 +10,13 @@
 
 module.exports =
   name: 'publications'
+
+  computed:
+    views: -> @$store.state.views
+    activeLanguage: -> return @$store.state.activeLanguage
+
+    #HACK: component loads before data is returned from server and into store
+    publicationsBody: -> return @views[0]?[@activeLanguage].body
 
 
 </script>

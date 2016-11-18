@@ -10,18 +10,17 @@ const configuration = require('feathers-configuration');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const bodyParser = require('body-parser');
-const socketio = require('feathers-socketio');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const socketio = require('feathers-socketio');const primus = require('feathers-primus');
 const middleware = require('./middleware');
 const services = require('./services');
 
-//mongoose init
-const mongoose = require('mongoose');
-const service = require('feathers-mongoose');
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://mslong:davis@ds151917.mlab.com:51917/lizzie');
-
+mongoose.connect('mongodb://maximelong:davis@ds157487.mlab.com:57487/lizzie')
 const app = feathers();
+
 app.configure(configuration(path.join(__dirname, '..')));
+
 app.use(compress())
   .options('*', cors())
   .use(cors())
@@ -32,6 +31,7 @@ app.use(compress())
   .configure(hooks())
   .configure(rest())
   .configure(socketio())
+  .configure(primus({ transformer: 'websockets' }))
   .configure(services)
   .configure(middleware);
 

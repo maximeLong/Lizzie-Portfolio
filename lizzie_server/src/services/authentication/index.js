@@ -11,7 +11,7 @@ module.exports = function() {
   const app = this;
 
   let config = app.get('auth');
-  
+
   config.facebook.strategy = FacebookStrategy;
   config.facebook.tokenStrategy = FacebookTokenStrategy;
   config.google.strategy = GoogleStrategy;

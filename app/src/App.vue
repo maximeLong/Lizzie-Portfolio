@@ -4,6 +4,11 @@
     <info-panel></info-panel>
     <sign-up-panel></sign-up-panel>
 
+    <div id="signin-button" @click="setSignin"></div>
+    <div v-if="signin">
+      <signin-modal><signin-modal>
+    </div>
+
   </div>
 </template>
 
@@ -14,23 +19,12 @@ module.exports =
   components:
     InfoPanel: require './components/InfoPanel'
     SignUpPanel: require './components/SignUpPanel'
-
-  data: ->
-    someData: 'hey im andy'
-    inputModel: 'write something'
-    pins: [
-      { src: 'src jfdlskja ' },
-      { src: 'src two' },
-      { src: 'src three' }
-    ]
+    SigninModal: require './components/SigninModal'
 
   computed:
-    vuexData: ->
-      return @$store.state.stateVal
-
+    signin: -> @$store.state.signin
   methods:
-    doWork: ->
-      console.log 'i did work'
+    setSignin: -> @$store.commit('SET_SIGNIN', true)
 
 </script>
 
@@ -44,5 +38,14 @@ module.exports =
   +align-content(center)
   height: 100vh
   width: 100vw
+
+  #signin-button
+    position: fixed
+    bottom: 20px
+    right: 20px
+    width: 30px
+    height: 30px
+    background-color: pink
+    cursor: pointer
 
 </style>

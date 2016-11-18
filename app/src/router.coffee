@@ -10,7 +10,7 @@ module.exports = new VueRouter({
     { path: '/publications', component: Publications }
     { path: '/cv', component: Cv }
     { path: '/contact', component: Contact }
-    { path: '/', redirect: '/publications' }
+    { path: '/', redirect: 'Publications' }
   ]
 
 })
