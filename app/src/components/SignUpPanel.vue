@@ -92,6 +92,7 @@ module.exports =
       height: 81%
       border: none
       width: 56%
+      box-shadow: -27px 20px 50px rgba(0, 0, 0, 0.73)
     // &:nth-last-of-type(8)
     //   width: 50px
     //   height: 88%

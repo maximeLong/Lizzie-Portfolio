@@ -99,6 +99,9 @@ module.exports =
         +defaultType
         +clickable
         color: $action_color
+        border: 1px solid $action_color
+        border-radius: 2px
+        padding: 6px 12px
 
   #panel-controls
     position: absolute
