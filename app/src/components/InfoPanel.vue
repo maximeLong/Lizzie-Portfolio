@@ -6,7 +6,10 @@
     <div id="title-slider">
       <div id="title-rotator"
         v-bind:style="{ transform: rotateString }">
-        <div class="title" v-for="title in viewTitles">{{title}}</div>
+        <div class="title" v-for="title in viewTitles">
+          {{title}}
+          <span @click="toggleEditMode">turn edit {{ editMode ? 'off' : 'on' }}</span>
+        </div>
       </div>
     </div>
 
@@ -49,9 +52,11 @@ module.exports =
     views: ->           return @$store.state.views
     currentView: ->     return @$store.state.currentView
     activeLanguage: ->  return @$store.state.activeLanguage
+    editMode: ->        return @$store.state.editMode
   methods:
     changeCurrentView: (index)->  return @$router.push(index)
     buttonIsActive: (index)->     return @$store.state.route.path[1..] is index
+    toggleEditMode: -> @$store.commit('SET_EDIT_MODE', !@editMode)
 
 
   data: ->
@@ -89,16 +94,21 @@ module.exports =
         height: 50px
         +flexbox
         +align-items(center)
+      span
+        margin-left: 20px
+        +defaultType
+        +clickable
+        color: $action_color
 
   #panel-controls
     position: absolute
-    right: 20px
+    right: 40px
     +flexbox
     +flex-direction(column)
     .panel-button
       background-color: white
       display: block
-      width: 60px
+      width: 50px
       height: 20px
       +clickable
       +flexbox

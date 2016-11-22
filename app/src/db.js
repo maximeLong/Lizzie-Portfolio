@@ -15,7 +15,8 @@ const _server = feathers()
   .configure(hooks())
   .configure(socketio(socket))
   .configure(authentication({ storage: window.localStorage }))
-  .configure(reactive(RxJS));
+  .configure(reactive(RxJS, {listStrategy: 'smart', idField: '_id' }));
+  // have to provide options to reactive-feathers or else PATCH and UPDATE doesn't work as expected
 
 export const server = _server
 export const views = server.service('views')

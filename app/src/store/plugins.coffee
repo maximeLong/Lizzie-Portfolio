@@ -8,7 +8,7 @@ module.exports =
     .then ({data}) -> store.commit('SET_CURRENT_USER', data)
     .catch (err) ->
       store.commit 'SET_CURRENT_USER',
-        username: 'anonymous'
+        username: 'stranger'
         email: ''
     # start stream
     store.dispatch('startStream')

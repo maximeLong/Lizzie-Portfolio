@@ -19,6 +19,8 @@
     "feathers-reactive": "^0.4.0",
     "feathers-socketio": "^1.4.2",
     "lodash": "^4.16.6",
+    "marked": "^0.3.6",
+    "medium-editor": "^5.22.1",
     "rxjs": "^5.0.0-rc.2",
     "socket.io-client": "^1.5.1",
     "vue": "^2.0.1",

@@ -9,7 +9,12 @@ exports.before = {
   find: [
     auth.verifyToken(),
     auth.populateUser(),
-    auth.restrictToAuthenticated()
+    auth.restrictToAuthenticated(),
+    auth.hasRoleOrRestrict({
+      roles: ['admin'],
+      fieldName: 'role',
+      restrict: { approved: true }
+    })
   ],
   get: [
     auth.verifyToken(),
@@ -18,7 +23,14 @@ exports.before = {
     auth.restrictToOwner({ ownerField: '_id' })
   ],
   create: [
-    auth.hashPassword()
+    auth.hashPassword(),
+    auth.hasRoleOrRestrict({
+      // this app has LOCKED DOWN account creation -- have to be logged in as admin to create new accounts
+      // which means if you start new db YOU HAVE TO REMOVE THIS to create new account
+      roles: ['admin'],
+      fieldName: 'role',
+      restrict: { approved: true }
+    })
   ],
   update: [
     auth.verifyToken(),
@@ -36,7 +48,12 @@ exports.before = {
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),
-    auth.restrictToOwner({ ownerField: '_id' })
+    auth.restrictToOwner({ ownerField: '_id' }),
+    auth.hasRoleOrRestrict({
+      roles: ['admin'],
+      fieldName: 'role',
+      restrict: { approved: true }
+    })
   ]
 };
 

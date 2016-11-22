@@ -9,6 +9,7 @@ state =
     { value: 'italian' } ]
   activeLanguage: 'english'
   signin: false
+  editMode: false
   currentUser: {}
 
 
@@ -21,6 +22,8 @@ mutations =
     state.signin = signState
   SET_CURRENT_USER: (state, user)->
     state.currentUser = user
+  SET_EDIT_MODE: (state, mode)->
+    state.editMode = mode
 
 module.exports = new Vuex.Store({
   state

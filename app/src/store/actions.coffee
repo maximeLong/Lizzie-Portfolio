@@ -1,13 +1,34 @@
-{ viewStream } = require 'src/db'
-{ server } = require 'src/db'
+{ viewStream, views, server } = require 'src/db'
 RxJS = require('rxjs');
+_ = require('lodash')
 
 module.exports =
 
   #socket method that watches for updates to server
   startStream: ({commit})=>
-    viewStream.subscribe (res) ->
-      commit('SET_VIEWS', res) if res.length
+    query =
+      $sort: { sort: -1}
+    #TODO: WTF: A function that returns a function, which returns whether an item matches the original query or not.
+    views.rx(matcher: (query)-> -> true)
+    #TODO: query doesn't seem to work
+    views.find(query)
+      .subscribe (res) ->
+        res = _.sortBy(res, 'sort')
+        commit('SET_VIEWS', res) if res.length
+      , (err) -> console.log err
+
+  updateView: ({commit, state}, [currentView, content])->
+    newLanguage = {}
+    newLanguage[state.activeLanguage] = {}
+    newLanguage[state.activeLanguage].body  = content
+    newLanguage[state.activeLanguage].title = currentView[state.activeLanguage].title
+    console.log newLanguage
+
+    views.patch(currentView?._id, newLanguage)
+      .then (res)->
+        console.log 'success'
+      .catch (err)->
+        console.log err
 
   login: ({commit}, {email, password})->
     server.authenticate({type: 'local', email, password})
@@ -21,7 +42,7 @@ module.exports =
     server.logout()
       .then () ->
         commit 'SET_CURRENT_USER',
-          username: 'anonymous'
+          username: 'stranger'
           email: ''
       .catch (err) ->
         console.log err

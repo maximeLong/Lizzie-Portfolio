@@ -1,7 +1,7 @@
 <template>
   <div id="signin-modal">
     <div class="close-btn" @click="close">x</div>
-    <div class="title">Hi Lizzie!</div>
+    <div class="title">Hi {{userName}}!</div>
 
     <input placeholder="email" v-model="credentials.email" v-if="!userExists">
     <input placeholder="password" v-model="credentials.password" type="password" v-if="!userExists">
@@ -25,15 +25,22 @@ module.exports =
       password: ''
 
   computed:
+    userName: -> return @$store.state.currentUser.username
     userExists: ->
-      if @$store.state.currentUser.username != 'anonymous'
+      if @userName != 'stranger'
         return true
       else return false
 
   methods:
     close: -> @$store.commit('SET_SIGNIN', false)
     logout: -> @$store.dispatch 'logout'
-    login: ->  @$store.dispatch 'login', @credentials
+    login: ->
+      @$store.dispatch 'login', @credentials
+      setTimeout =>
+        @close()
+      , 1500
+
+      # TODO: REMOVE
       # user.create({
       #   username: 'lizziedavis'
       #   email: 'edavis256@gmail.com'

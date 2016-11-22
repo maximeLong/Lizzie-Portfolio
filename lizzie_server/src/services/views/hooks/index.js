@@ -2,6 +2,8 @@
 
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
+const auth = require('feathers-authentication').hooks;
+
 
 const myHook = options => { // always wrap in a function so you can pass options and for consistency.
   return hook => {
@@ -15,10 +17,32 @@ exports.before = {
   all: [],
   find: [],
   get: [],
-  create: [],
-  update: [],
-  patch: [],
-  remove: []
+  create: [
+    // only verified accounts can create views -- and account has to be admin
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated(),
+    auth.hasRoleOrRestrict({
+      roles: ['admin'],
+      fieldName: 'role',
+      restrict: { approved: true }
+    })
+  ],
+  update: [
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated()
+  ],
+  patch: [
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated()
+  ],
+  remove: [
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated()
+  ]
 };
 
 exports.after = {
