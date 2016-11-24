@@ -10,10 +10,12 @@ const authentication = require('feathers-authentication/client');
 const reactive = require('feathers-reactive');
 const RxJS = require('rxjs');
 
-// points to deployment for testing -- switch with real URL
+//TODO: this setup doesn't work in production
 let serverAddress = new URL(window.location.origin)
-serverAddress.port = '3030'
-const socket = io(serverAddress.href)
+serverAddress.port = '3030' //why is this defined here?
+const socket = io.connect(serverAddress.href)
+
+console.log( serverAddress, socket);
 
 const _server = feathers()
   .configure(hooks())
