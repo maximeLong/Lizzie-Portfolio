@@ -16,6 +16,7 @@ const socketio = require('feathers-socketio');const primus = require('feathers-p
 const middleware = require('./middleware');
 const services = require('./services');
 
+const socket = io();
 mongoose.connect('mongodb://maximelong:davis@ds157487.mlab.com:57487/lizzie')
 const app = feathers();
 
@@ -30,7 +31,7 @@ app.use(compress())
   .use(bodyParser.urlencoded({ extended: true }))
   .configure(hooks())
   .configure(rest())
-  .configure(socketio())
+  .configure(socketio(socket))
   .configure(primus({ transformer: 'websockets' }))
   .configure(services)
   .configure(middleware);
