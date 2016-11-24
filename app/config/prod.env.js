@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  SERVER_ADDRESS: '"https://lizzieserver-eytjapwvlx.now.sh"'
+  SERVER_ADDRESS: '"https://lizzie-davis.herokuapp.com"'
 }
