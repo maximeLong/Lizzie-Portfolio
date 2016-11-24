@@ -3,6 +3,7 @@ Vuex = require('vuex')
 
 state =
   views: []
+  about: {}
   languages: [
     { value: 'english' }
     { value: 'spanish' }
@@ -16,6 +17,8 @@ state =
 mutations =
   SET_VIEWS: (state, newViews)->
     state.views = newViews
+  SET_ABOUT: (state, newAbout)->
+    state.about = newAbout
   SET_ACTIVE_LANGUAGE: (state, newLang)->
     state.activeLanguage = newLang
   SET_SIGNIN: (state, signState)->

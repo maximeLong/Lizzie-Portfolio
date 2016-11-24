@@ -14,7 +14,10 @@ module.exports =
     views.find(query)
       .subscribe (res) ->
         res = _.sortBy(res, 'sort')
-        commit('SET_VIEWS', res) if res.length
+        about = res[0]
+        pageViews = res.filter( (view)-> view.title != 'About')
+        commit('SET_VIEWS', pageViews) if pageViews.length
+        commit('SET_ABOUT', about)
       , (err) -> console.log err
 
   updateView: ({commit, state}, [currentView, content])->
@@ -22,9 +25,14 @@ module.exports =
     newLanguage[state.activeLanguage] = {}
     newLanguage[state.activeLanguage].body  = content
     newLanguage[state.activeLanguage].title = currentView[state.activeLanguage].title
-    console.log newLanguage
-
     views.patch(currentView?._id, newLanguage)
+      .then (res)->
+        console.log 'success'
+      .catch (err)->
+        console.log err
+
+  createView: ({commit, state}, body)->
+    views.create(body)
       .then (res)->
         console.log 'success'
       .catch (err)->

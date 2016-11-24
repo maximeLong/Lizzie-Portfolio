@@ -2,16 +2,12 @@
   <div id="sign-up">
 
     <div id="center-panel">
-      <div class="title">About me</div>
-      <div class="content">
-        <p>Lizzie Davis is a writer, editor, and literary translator from Spanish and Italian to English. Her translations from the Spanish include works by Ezio Neyra, Pilar Fraile Amador, Daniel Saldaña París, and others, as well as Elena Medel's My First Bikini (Jai-Alai Books, 2015) and the prose for Then Come Back: The Lost Neruda (Copper Canyon, 2016). She acquires Spanish-language texts and edits works both in their original English and in translation at Coffee House Press.
-        </p>
-      </div>
-      <div class="links">
-        <a href="https://twitter.com/lizzie_davis_">twitter.</a>
-        <a href="https://twitter.com/lizzie_davis_">linkedin.</a>
-        <a href="https://twitter.com/lizzie_davis_">facebook.</a>
-      </div>
+      <div class="title">About Lizzie Davis</div>
+      <editor-content
+        :view="aboutView"
+        :active-language="activeLanguage"
+        :edit-mode="editMode"
+      ></editor-content>
     </div>
 
     <div class="back-pages" v-for="n in 8"></div>
@@ -23,6 +19,14 @@
 module.exports =
 
   name: 'signUpPanel'
+  components:
+    EditorContent: require './EditorContent'
+
+  computed:
+    aboutView: -> return @$store.state.about
+    activeLanguage: -> return @$store.state.activeLanguage
+    editMode: -> return @$store.state.editMode
+
 
 
 </script>
@@ -47,6 +51,7 @@ module.exports =
     background-color: white
     position: relative
     padding: 30px
+    font-family: 'Anonymous Pro'
     &::after
       content: 'i'
       left: 50%
@@ -56,6 +61,8 @@ module.exports =
     .title
       width: 100%
       text-align: center
+      font-family: 'Anonymous Pro'
+      padding: 0 0 10px 0
 
     .content
       p

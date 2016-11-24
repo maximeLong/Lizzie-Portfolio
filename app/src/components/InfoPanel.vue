@@ -8,7 +8,7 @@
         v-bind:style="{ transform: rotateString }">
         <div class="title" v-for="title in viewTitles">
           {{title}}
-          <span @click="toggleEditMode">turn edit {{ editMode ? 'off' : 'on' }}</span>
+          <span @click="toggleEditMode" v-if="userExists">turn edit {{ editMode ? 'off' : 'on' }}</span>
         </div>
       </div>
     </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script lang="coffee">
+{ views } = 'src/db'
 module.exports =
 
   name: 'infoPanel'
@@ -47,8 +48,13 @@ module.exports =
         currentIndex = i if view.title == @$store.state.route.path[1..]
       return currentIndex * @titleSize
     rotateString: -> return "translate3d(0, -#{@rotateAmount}px, 0)"
-    viewTitles: -> return @views.map (view)=> view[@activeLanguage]?.title
+    userExists: ->
+      if @userName != 'stranger'
+        return true
+      else return false
 
+    viewTitles: ->      return @views.map (view)=> view[@activeLanguage]?.title
+    userName: ->        return @$store.state.currentUser.username
     views: ->           return @$store.state.views
     currentView: ->     return @$store.state.currentView
     activeLanguage: ->  return @$store.state.activeLanguage
@@ -57,7 +63,6 @@ module.exports =
     changeCurrentView: (index)->  return @$router.push(index)
     buttonIsActive: (index)->     return @$store.state.route.path[1..] is index
     toggleEditMode: -> @$store.commit('SET_EDIT_MODE', !@editMode)
-
 
   data: ->
     titleSize: 50 # update when you change css title height
@@ -99,6 +104,7 @@ module.exports =
         +defaultType
         +clickable
         color: $action_color
+        font-size: $font_size_small
         border: 1px solid $action_color
         border-radius: 2px
         padding: 6px 12px

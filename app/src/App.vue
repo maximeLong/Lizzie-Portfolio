@@ -45,7 +45,7 @@ module.exports =
     right: 20px
     width: 30px
     height: 30px
-    background-color: pink
+    background-color: #5bb99f
     cursor: pointer
 
 </style>

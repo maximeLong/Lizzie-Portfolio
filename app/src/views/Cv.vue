@@ -1,28 +1,35 @@
 <template>
-  <div id="cv">
+  <div id="publications" class="default-view">
 
-    {{cvBody}}
+    <editor-content
+      :view="cvView"
+      :active-language="activeLanguage"
+      :edit-mode="editMode"
+    ></editor-content>
 
   </div>
 </template>
 
 <script lang="coffee">
 
+{ views } = require 'src/db'
+
 module.exports =
   name: 'cv'
+  components:
+    EditorContent: require 'src/components/EditorContent'
 
   computed:
-    views: -> @$store.state.views
+    cvView: -> return @$store.state.views[1]
     activeLanguage: -> return @$store.state.activeLanguage
-
-    #HACK: component loads before data is returned from server and into store
-    cvBody: -> return @views[1]?[@activeLanguage].body
-
+    editMode: -> return @$store.state.editMode
 
 </script>
 
 <style lang="sass">
 @import src/styles/main
+
+#publications
 
 
 </style>

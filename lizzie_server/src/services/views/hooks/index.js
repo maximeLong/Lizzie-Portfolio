@@ -18,7 +18,7 @@ exports.before = {
   find: [],
   get: [],
   create: [
-    // only verified accounts can create views -- and account has to be admin
+    // TODO: This doesn't actually allow admin to create, for some reason -- this is just a lock by effect of error
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),

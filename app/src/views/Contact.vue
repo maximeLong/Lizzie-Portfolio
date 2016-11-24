@@ -1,28 +1,35 @@
 <template>
-  <div id="contact">
+  <div id="publications" class="default-view">
 
-    {{contactBody}}
+    <editor-content
+      :view="contactView"
+      :active-language="activeLanguage"
+      :edit-mode="editMode"
+    ></editor-content>
 
   </div>
 </template>
 
 <script lang="coffee">
 
+{ views } = require 'src/db'
+
 module.exports =
   name: 'contact'
+  components:
+    EditorContent: require 'src/components/EditorContent'
 
   computed:
-    views: -> @$store.state.views
+    contactView: -> return @$store.state.views[2]
     activeLanguage: -> return @$store.state.activeLanguage
-
-    #HACK: component loads before data is returned from server and into store
-    contactBody: -> return @views[2]?[@activeLanguage].body
-
+    editMode: -> return @$store.state.editMode
 
 </script>
 
 <style lang="sass">
 @import src/styles/main
+
+#publications
 
 
 </style>
