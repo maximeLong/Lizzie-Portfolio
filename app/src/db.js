@@ -10,11 +10,7 @@ const authentication = require('feathers-authentication/client');
 const reactive = require('feathers-reactive');
 const RxJS = require('rxjs');
 
-//TODO: this setup doesn't work in production
-// let serverAddress = new URL(window.location.origin);
-// serverAddress.port = process.env.SERVER_ADDRESS
 const socket = io.connect(process.env.SERVER_ADDRESS);
-
 console.log( process.env );
 console.log( socket);
 
