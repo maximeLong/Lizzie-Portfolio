@@ -24,4 +24,5 @@ git subtree push --prefix <server folder> heroku master (makes git subtree repo 
 ```
 
 Vue loader docs: [guide](http://vuejs-templates.github.io/webpack/)
+
 Feathers docs: [docs]https://docs.feathersjs.com/
