@@ -1,5 +1,5 @@
 # Lizzie's portfolio
-> vue cli, feathers cli --> socket.io, mongoose, reactive streams, heroku deployment...
+> vue cli, feathers cli --> mongoose models, socket.io connection into rxjs streams
 
 ## Build Setup
 
@@ -24,4 +24,4 @@ git subtree push --prefix <server folder> heroku master (makes git subtree repo 
 ```
 
 Vue loader docs: [guide](http://vuejs-templates.github.io/webpack/)
-
+Feathers docs: [docs]https://docs.feathersjs.com/
