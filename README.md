@@ -1,17 +1,27 @@
 # Lizzie's portfolio
-> client side marketing for whereyaat
+> vue cli, feathers cli --> socket.io, mongoose, reactive streams, heroku deployment...
 
 ## Build Setup
 
 ``` bash
 # install dependencies
-npm install
+cd app && npm install
+cd server && npm install
+
 
 # serve with hot reload at localhost:8080
-npm start
+cd app && npm start
+cd server && npm start
 
-# build for production with minification
-npm run build
+
+# build for production
+npm run build (saves minified code to server path)
+git push origin master (master branch is up to date)
+
+heroku login
+git subtree push --prefix <server folder> heroku master (makes git subtree repo of server path)
+
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Vue loader docs: [guide](http://vuejs-templates.github.io/webpack/)
+
